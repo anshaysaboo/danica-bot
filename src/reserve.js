@@ -89,7 +89,11 @@ const reserveGym = async () => {
     .add(7, "days")
     .tz("America/Los_Angeles")
     .format("dddd, MMMM Do");
-  const browser = await puppeteer.launch({ headless: true, stealth: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    stealth: true,
+    args: ["--no-sandbox"],
+  });
   try {
     // Send message that attempt is starting
     sendMessage(
@@ -140,18 +144,14 @@ const reserveGym = async () => {
     console.log("Selected session");
     // Select the reserve button and register for the session
     await page.click("#btnReserve");
-
     await page.waitForSelector("#alertSuccess");
-
     await browser.close();
-
     sendMessage(
       "DANICA: " +
         generateGreeting() +
         " I've reserved the gym for you next week from 8:00am - 9:00am. Have a nice night!",
       RECEIVER_PHONE
     );
-
     console.log("Successfully registered!");
   } catch (err) {
     console.log(err);
