@@ -90,7 +90,7 @@ const reserveGym = async () => {
     .tz("America/Los_Angeles")
     .format("dddd, MMMM Do");
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     stealth: true,
     args: ["--no-sandbox"],
   });
@@ -122,9 +122,12 @@ const reserveGym = async () => {
       "body > div.container.body-content.bodyColour.contentWrapPP > div > div.col-lg-2.col-md-3.col-sm-3.hidden-xs > div > div.panel-body > ul > li:nth-child(9) > a"
     );
     await page.waitFor(4000);
+
+    // Select FCW Weekday Mornings from the menu
     await page.click(
-      "body > div.container.body-content.bodyColour.contentWrapPP > div > div.col-lg-2.col-md-3.col-sm-3.hidden-xs > div > div.panel-body > ul > li:nth-child(9) > a"
+      "body > div.container.body-content.bodyColour.contentWrapPP > div > div.col-lg-2.col-md-3.col-sm-3.hidden-xs > div > div.panel-body > ul > li:nth-child(10) > a"
     );
+
     await page.waitForSelector(
       "#ReservationGrid > div.col-lg-9.col-md-8.col-sm-8.col-xs-7 > div > table > thead > tr > td:nth-child(13) > div"
     );
