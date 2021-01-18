@@ -91,7 +91,7 @@ const reserveGym = async () => {
     .tz("America/Los_Angeles")
     .format("dddd, MMMM Do");
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     stealth: true,
     args: ["--no-sandbox"],
   });
