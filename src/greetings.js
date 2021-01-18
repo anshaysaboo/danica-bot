@@ -4,9 +4,8 @@ const GREETINGS = [
   "Hello Master!",
   "Hey Mr. Saboo!",
   "Hello, creator!",
-  "Howdy there sir!",
-  "Howdy there Mr. Saboo!",
   "Hope you're doing well Mr. Saboo.",
+  "Master.",
 ];
 
 exports.generateGreeting = () => {

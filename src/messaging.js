@@ -2,6 +2,7 @@ const axios = require("axios");
 const freeClimbSDK = require("@freeclimb/sdk");
 
 exports.sendMessage = async (text, receiver) => {
+  console.log(process.env.FREECLIMB_ACCOUNT_ID);
   try {
     var accountID = process.env.FREECLIMB_ACCOUNT_ID;
     var authToken = process.env.FREECLIMB_AUTH_TOKEN;
