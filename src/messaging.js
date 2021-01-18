@@ -2,14 +2,14 @@ const axios = require("axios");
 const freeClimbSDK = require("@freeclimb/sdk");
 
 exports.sendMessage = async (text, receiver) => {
-  console.log(process.env.FREECLIMB_ACCOUNT_ID);
+  console.log(process.env.FREECLIMB_AUTH_TOKEN);
   try {
     var accountID = process.env.FREECLIMB_ACCOUNT_ID;
     var authToken = process.env.FREECLIMB_AUTH_TOKEN;
     var fc = freeClimbSDK(accountID, authToken);
     var from = process.env.FREECLIMB_PHONE_NUMBER;
-    fc.api.messages.create(from, receiver, text);
+    await fc.api.messages.create(from, receiver, text);
   } catch (err) {
-    console.error(err.response.data.message);
+    console.error(err);
   }
 };

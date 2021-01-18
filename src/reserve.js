@@ -66,7 +66,7 @@ const selectGymSession = async (page, time) => {
     var slots = document.querySelectorAll(
       `#ReservationGrid > div.col-lg-9.col-md-8.col-sm-8.col-xs-7 > div > table > tbody > tr:nth-child(${row}) > td`
     );
-    for (var i = 9; i < slots.length; i++) {
+    for (var i = 5; i < slots.length; i++) {
       if (slots[i].innerText === "Reserve") {
         // Attempt to reserve this session
         return `#ReservationGrid > div.col-lg-9.col-md-8.col-sm-8.col-xs-7 > div > table > tbody > tr:nth-child(${row}) > td:nth-child(${
@@ -81,7 +81,7 @@ const selectGymSession = async (page, time) => {
   }
   await page.click(slotSelector);
   await page.waitForSelector("#btnReserve");
-  await page.waitFor(500);
+  await page.waitForTimeout(500);
 };
 
 // Main method that carries out the steps in the reservation process
@@ -91,7 +91,7 @@ const reserveGym = async () => {
     .tz("America/Los_Angeles")
     .format("dddd, MMMM Do");
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: process.env.NODE_ENV === "production",
     stealth: true,
     args: ["--no-sandbox"],
   });
@@ -125,7 +125,7 @@ const reserveGym = async () => {
       "body > div.container.body-content.bodyColour.contentWrapPP > div > div.col-lg-2.col-md-3.col-sm-3.hidden-xs > div > div.panel-body > ul > li:nth-child(5) > a";
     await page.waitForSelector(MENU_ITEM_SELECTOR);
 
-    await page.waitFor(4000);
+    await page.waitForTimeout(4000);
 
     // Select FCW Weekday Mornings from the menu
     await page.click(MENU_ITEM_SELECTOR);
@@ -139,11 +139,11 @@ const reserveGym = async () => {
     await page.focus(
       "#ReservationGrid > div.row > div.col-lg-6.col-md-6.col-sm-6.col-xs-12.pull-left.input-group.date > div"
     );
-    await page.waitFor(3000);
+    await page.waitForTimeout(3000);
     // Switch the date
     await selectDateInOneWeek(page);
     console.log("Selected date");
-    await page.waitFor(2000);
+    await page.waitForTimeout(2000);
     // Select the gym session
     await selectGymSession(page);
     console.log("Selected session");
@@ -167,7 +167,9 @@ const reserveGym = async () => {
         err,
       RECEIVER_PHONE
     );
-    browser.close();
+    if (process.env.NODE_ENV === "production") {
+      browser.close();
+    }
   }
 };
 
