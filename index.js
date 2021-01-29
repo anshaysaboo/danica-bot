@@ -28,7 +28,7 @@ app.post("/sms-hook", (req, res) => {
 // Schedule recurring task for midnight
 var CronJob = require("cron").CronJob;
 var job = new CronJob(
-  process.env.SCHEDULE_CRON,
+  process.env.SCHEDULE_CRON || "0 0 * * *",
   () => {
     startReserveTask();
   },
