@@ -15,6 +15,7 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 
+// Endpoint to receive text messages
 app.post("/sms-hook", (req, res) => {
   if (req.body.text.toLowerCase().trim() === "book me a session") {
     startReserveTask();

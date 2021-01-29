@@ -7,6 +7,7 @@ exports.startReserveTask = () => {
     moment().format("dddd") !== "Saturday" &&
     moment().format("dddd") !== "Sunday"
   ) {
-    reserveGym();
+    // Make three attempts to book a session if it fails
+    reserveGym(3);
   }
 };
