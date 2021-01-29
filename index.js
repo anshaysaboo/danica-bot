@@ -25,6 +25,19 @@ app.post("/sms-hook", (req, res) => {
   res.send(200);
 });
 
+// Schedule recurring task for midnight
+var CronJob = require("cron").CronJob;
+var job = new CronJob(
+  process.env.SCHEDULE_CRON,
+  () => {
+    startReserveTask();
+  },
+  null,
+  true,
+  "America/Los_Angeles"
+);
+job.start();
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, async () => {
   console.log("Listening on port " + PORT);

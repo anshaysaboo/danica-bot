@@ -24,6 +24,7 @@ const reserveGym = async (attempts) => {
   });
   try {
     // Send message that attempt is starting
+    console.log("Starting attempt. Attempts left: " + attempts || 0);
     sendMessage(
       "DANICA: " +
         generateGreeting() +
