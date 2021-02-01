@@ -8,6 +8,6 @@ exports.startReserveTask = () => {
     moment().format("dddd") !== "Sunday"
   ) {
     // Make three attempts to book a session if it fails
-    reserveGym(3);
+    reserveGym(4);
   }
 };
