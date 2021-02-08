@@ -50,7 +50,7 @@ const reserveGym = async (attempts) => {
 
     // Wait for the reservation page to load
     const MENU_ITEM_SELECTOR =
-      "body > div.container.body-content.bodyColour.contentWrapPP > div > div.col-lg-2.col-md-3.col-sm-3.hidden-xs > div > div.panel-body > ul > li:nth-child(5) > a";
+      "body > div.container.body-content.bodyColour.contentWrapPP > div > div.col-lg-2.col-md-3.col-sm-3.hidden-xs > div > div.panel-body > ul > li:nth-child(15) > a";
     await page.waitForSelector(MENU_ITEM_SELECTOR);
 
     await page.waitForTimeout(4000);
