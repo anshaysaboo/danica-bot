@@ -61,7 +61,7 @@ exports.selectGymSession = async (page) => {
       var slots = document.querySelectorAll(
         `#ReservationGrid > div.col-lg-9.col-md-8.col-sm-8.col-xs-7 > div > table > tbody > tr:nth-child(${row}) > td`
       );
-      for (var i = 5; i < slots.length; i++) {
+      for (var i = 9; i < slots.length; i++) {
         console.log(slots[i].innerText);
         if (slots[i].innerText === "Reserve") {
           // Attempt to reserve this session
