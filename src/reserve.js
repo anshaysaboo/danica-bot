@@ -34,7 +34,7 @@ const reserveGym = async (attempts) => {
       RECEIVER_PHONE
     );
     const page = await browser.newPage();
-    await page.setDefaultTimeout(8000);
+    await page.setDefaultTimeout(15000);
     await page.setUserAgent(
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
     );
@@ -51,11 +51,13 @@ const reserveGym = async (attempts) => {
     // Wait for the reservation page to load
     const MENU_ITEM_SELECTOR =
       "body > div.container.body-content.bodyColour.contentWrapPP > div > div.col-lg-2.col-md-3.col-sm-3.hidden-xs > div > div.panel-body > ul > li:nth-child(15) > a";
+
     await page.waitForSelector(MENU_ITEM_SELECTOR);
 
     await page.waitForTimeout(4000);
 
     // Select FCW Weekday Mornings from the menu
+    await page.focus(MENU_ITEM_SELECTOR);
     await page.click(MENU_ITEM_SELECTOR);
 
     await page.waitForSelector(
@@ -67,7 +69,7 @@ const reserveGym = async (attempts) => {
     await page.focus(
       "#ReservationGrid > div.row > div.col-lg-6.col-md-6.col-sm-6.col-xs-12.pull-left.input-group.date > div"
     );
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(2500);
     // Switch the date
     await selectDateInOneWeek(page);
     console.log("Selected date");
