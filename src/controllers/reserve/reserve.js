@@ -7,8 +7,8 @@ const {
   selectDateInOneWeek,
 } = require("./utils.js");
 
-const { sendMessage } = require("./messaging.js");
-const { generateGreeting } = require("./greetings.js");
+const { sendMessage } = require("../messages/messaging.js");
+const { generateGreeting } = require("../messages/greetings.js");
 const RECEIVER_PHONE = process.env.USER_PHONE;
 
 // Main method that carries out the steps in the reservation process
@@ -54,7 +54,9 @@ const reserveGym = async (attempts) => {
 
     await page.waitForSelector(MENU_ITEM_SELECTOR);
 
-    await page.waitForTimeout(4000);
+    await page.waitForSelector("#loadingspinner", { hidden: true });
+    //await page.waitForTimeout(4000);
+    // await page.waitForNavigation({ waitUntil: "networkidle0" });
 
     // Select FCW Weekday Mornings from the menu
     await page.focus(MENU_ITEM_SELECTOR);
@@ -69,11 +71,14 @@ const reserveGym = async (attempts) => {
     await page.focus(
       "#ReservationGrid > div.row > div.col-lg-6.col-md-6.col-sm-6.col-xs-12.pull-left.input-group.date > div"
     );
-    await page.waitForTimeout(2500);
+
+    await page.waitForSelector("#loadingspinner", { hidden: true });
+
     // Switch the date
     await selectDateInOneWeek(page);
     console.log("Selected date");
     await page.waitForTimeout(2000);
+
     // Select the gym session
     await selectGymSession(page);
     console.log("Selected session");

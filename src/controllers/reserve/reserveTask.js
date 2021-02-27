@@ -1,6 +1,6 @@
 require("dotenv").config();
 const moment = require("moment");
-const { reserveGym } = require("./src/reserve.js");
+const { reserveGym } = require("./reserve.js");
 
 exports.startReserveTask = () => {
   if (

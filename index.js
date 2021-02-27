@@ -5,8 +5,12 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const moment = require("moment");
 
-const { startReserveTask } = require("./reserveTask.js");
-const { respondToMessage } = require("./src/messageResponse.js");
+const {
+  startReserveTask,
+} = require("./src/controllers/reserve/reserveTask.js");
+const {
+  respondToMessage,
+} = require("./src/controllers/messages/messageResponse.js");
 
 const app = express();
 
