@@ -5,12 +5,11 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const moment = require("moment");
 
+const { activateIntent } = require("./src/intents/index.js");
+
 const {
   startReserveTask,
 } = require("./src/controllers/reserve/reserveTask.js");
-const {
-  respondToMessage,
-} = require("./src/controllers/messages/messageResponse.js");
 
 const app = express();
 
@@ -21,11 +20,7 @@ app.use(express.json());
 
 // Endpoint to receive text messages
 app.post("/sms-hook", (req, res) => {
-  if (req.body.text.toLowerCase().trim() === "book me a session") {
-    startReserveTask();
-  } else {
-    respondToMessage(req.body);
-  }
+  activateIntent(req.body);
   res.send(200);
 });
 

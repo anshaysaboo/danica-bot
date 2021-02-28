@@ -26,8 +26,7 @@ const reserveGym = async (attempts) => {
     // Send message that attempt is starting
     console.log("Starting attempt. Attempts left: " + attempts || 0);
     sendMessage(
-      "DANICA: " +
-        generateGreeting() +
+      generateGreeting() +
         " I'm trying to reserve the gym for you on " +
         registrationDate +
         " now.",
@@ -88,8 +87,7 @@ const reserveGym = async (attempts) => {
     await browser.close();
     // TODO: Change text depending on which session was selected
     sendMessage(
-      "DANICA: " +
-        generateGreeting() +
+      generateGreeting() +
         " I've reserved the gym for you next week from 8:00am - 9:00am. Have a nice night!",
       RECEIVER_PHONE
     );
@@ -97,8 +95,7 @@ const reserveGym = async (attempts) => {
   } catch (err) {
     console.log(err);
     sendMessage(
-      "DANICA: " +
-        generateGreeting() +
+      generateGreeting() +
         " I was unable to register the gym for next week, due to the following problem: " +
         err,
       RECEIVER_PHONE

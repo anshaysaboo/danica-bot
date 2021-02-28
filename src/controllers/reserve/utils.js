@@ -37,8 +37,6 @@ exports.selectDateInOneWeek = async (page) => {
       let data = rows[row].querySelectorAll("td");
       for (var col = 0; col < data.length; col++) {
         if (data[col].className === "active day") {
-          //row = 1;
-          //col = 1;
           return `body > div.datepicker.datepicker-dropdown.dropdown-menu > div.datepicker-days > table > tbody > tr:nth-child(${
             row + 2
           }) > td:nth-child(${col + 1})`;
