@@ -15,7 +15,10 @@ exports.loginUserToBookingSite = async (page, username, password) => {
 
   // WAIT FOR NAVIGATION
   await page.waitForSelector(
-    "body > div.container.body-content.bodyColour.contentWrapPP > div > div.TitleDiv > h3"
+    "body > div.container.body-content.bodyColour.contentWrapPP > div > div.TitleDiv > h3",
+    {
+      timeout: 25000,
+    }
   );
 };
 
