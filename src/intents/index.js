@@ -6,6 +6,7 @@ const SmallTalk = require("./smalltalk.js");
 const INTENTS = [Menu, Reserve];
 
 exports.activateIntent = ({ text, from }) => {
+  console.log('RECEIVED: "' + text + '" FROM ' + from);
   message = text.toLowerCase().trim();
   for (let i = 0; i < INTENTS.length; i++) {
     if (INTENTS[i].keys.includes(message)) {
