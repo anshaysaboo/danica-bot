@@ -101,8 +101,7 @@ const attemptReserveGym = async (attempts = 1) => {
     try {
       await reserveGym();
       sendMessage(
-        generateGreeting() +
-          " I've reserved the gym for you next week from 8:00am - 9:00am. Have a nice night!",
+        generateGreeting() + " Gym has been successfully reserved!",
         RECEIVER_PHONE
       );
       return;

@@ -4,7 +4,7 @@ const { generateGreeting } = require("./greetings.js");
 exports.respondToMessage = (text, from) => {
   text = text.toLowerCase().trim();
   if (text === "thank you danica") {
-    sendMessage("At your service, Mr. Saboo.", from);
+    sendMessage("At your service.", from);
   } else if (text === "hey danica" || text === "hey" || text === "Hello") {
     sendMessage(
       "DANICA: " + generateGreeting() + " What can I do for you today?",
