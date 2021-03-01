@@ -13,25 +13,12 @@ const RECEIVER_PHONE = process.env.USER_PHONE;
 
 // Main method that carries out the steps in the reservation process
 const reserveGym = async (attempts) => {
-  const registrationDate = moment()
-    .add(7, "days")
-    .tz("America/Los_Angeles")
-    .format("dddd, MMMM Do");
   const browser = await puppeteer.launch({
     headless: process.env.NODE_ENV === "production",
     stealth: true,
     args: ["--no-sandbox"],
   });
   try {
-    // Send message that attempt is starting
-    console.log("Starting attempt. Attempts left: " + attempts || 0);
-    sendMessage(
-      generateGreeting() +
-        " I'm trying to reserve the gym for you on " +
-        registrationDate +
-        " now.",
-      RECEIVER_PHONE
-    );
     const page = await browser.newPage();
     await page.setDefaultTimeout(15000);
     await page.setUserAgent(
@@ -54,8 +41,6 @@ const reserveGym = async (attempts) => {
     await page.waitForSelector(MENU_ITEM_SELECTOR);
 
     await page.waitForSelector("#loadingspinner", { hidden: true });
-    //await page.waitForTimeout(4000);
-    // await page.waitForNavigation({ waitUntil: "networkidle0" });
 
     // Select FCW Weekday Mornings from the menu
     await page.focus(MENU_ITEM_SELECTOR);
@@ -81,35 +66,61 @@ const reserveGym = async (attempts) => {
     // Select the gym session
     await selectGymSession(page);
     console.log("Selected session");
+
     // Select the reserve button and register for the session
     await page.click("#btnReserve");
     await page.waitForSelector("#alertSuccess");
     await browser.close();
-    // TODO: Change text depending on which session was selected
-    sendMessage(
-      generateGreeting() +
-        " I've reserved the gym for you next week from 8:00am - 9:00am. Have a nice night!",
-      RECEIVER_PHONE
-    );
+
     console.log("Successfully registered!");
   } catch (err) {
-    console.log(err);
-    sendMessage(
-      generateGreeting() +
-        " I was unable to register the gym for next week, due to the following problem: " +
-        err,
-      RECEIVER_PHONE
-    );
-    if (process.env.NODE_ENV === "production") {
-      browser.close();
-    }
+    await browser.close();
+    throw err;
+  }
+};
 
-    if (attempts && attempts > 0) {
-      reserveGym(attempts - 1);
+// Public method to call in order to begin the reservation process
+const attemptReserveGym = async (attempts = 1) => {
+  // Send message that attempt is starting
+  const registrationDate = moment()
+    .add(7, "days")
+    .tz("America/Los_Angeles")
+    .format("dddd, MMMM Do");
+  sendMessage(
+    generateGreeting() +
+      " I'm trying to reserve the gym for you on " +
+      registrationDate +
+      " now.",
+    RECEIVER_PHONE
+  );
+
+  // Attempt to register for the session
+  let errors = [];
+  for (var i = 0; i < attempts; i++) {
+    console.log("Starting attempt. Attempts left: " + attempts - i || 0);
+    try {
+      await reserveGym();
+      sendMessage(
+        generateGreeting() +
+          " I've reserved the gym for you next week from 8:00am - 9:00am. Have a nice night!",
+        RECEIVER_PHONE
+      );
+      return;
+    } catch (err) {
+      console.error(err);
+      errors.push(err);
     }
   }
+  // Send errors to user if no attempts were successful
+  sendMessage(
+    generateGreeting() +
+      " Failed to register for gym session, for the following reasons: \n\n" +
+      errors.join("\n\n"),
+    RECEIVER_PHONE
+  );
 };
 
 module.exports = {
   reserveGym,
+  attemptReserveGym,
 };

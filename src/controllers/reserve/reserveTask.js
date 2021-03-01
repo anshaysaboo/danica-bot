@@ -1,6 +1,6 @@
 require("dotenv").config();
 const moment = require("moment");
-const { reserveGym } = require("./reserve.js");
+const { attemptReserveGym } = require("./reserve.js");
 
 exports.startReserveTask = () => {
   if (
@@ -8,6 +8,6 @@ exports.startReserveTask = () => {
     moment().format("dddd") !== "Sunday"
   ) {
     // Make three attempts to book a session if it fails
-    reserveGym(4);
+    attemptReserveGym(5);
   }
 };
