@@ -3,7 +3,7 @@ const puppeteer = require("puppeteer");
 // Function that returns the Local Point menu for the current date and time
 // @param meal - the meal which menu to return, either "lunch" or "dinner"
 
-const getMenu = async (meal) => {
+const getMenu = async () => {
   const browser = await puppeteer.launch({
     headless: process.env.NODE_ENV === "production",
     stealth: true,
